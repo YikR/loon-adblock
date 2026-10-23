@@ -1,12 +1,13 @@
 #!name=人工智障·去广告
-#!desc=v2.0.0：2080 条域名规则（精选合并 GitHub 主流清单）+ 微博/小红书/知乎净化与多 App 开屏脚本（带开关，需 MITM）。看广告得奖励类功能会受影响，属正常现象。
+#!desc=v2.0.1：2080 条域名规则（精选合并 GitHub 主流清单）+ 微博/小红书/知乎净化与多 App 开屏脚本（带开关，需 MITM）。看广告得奖励类功能会受影响，属正常现象。
 #!author=人工智障 (Muse)
+#!icon=https://raw.githubusercontent.com/YikR/loon-adblock/main/icon.png
 #!homepage=https://github.com/YikR/loon-adblock
 #!raw-url=https://raw.githubusercontent.com/YikR/loon-adblock/main/GodAdBlock.plugin
 #!tag=去广告,定制
 #!system=iOS, iPadOS
 #!date=2026-10-23
-#!version=2.0.0
+#!version=2.0.1
 
 # ============================================================
 # v2 说明

@@ -2,7 +2,9 @@
 
 为 god 定制的 Loon 去广告插件，由 人工智障 (Muse) 维护。
 
-## 当前版本：GodAdBlock.plugin v2.0.0（2026-10-23）
+## 当前版本：GodAdBlock.plugin v2.0.1（2026-10-23）
+
+插件图标与 X 工作台同款（仓库根目录 icon.png，取自工作台 apple-touch-icon，180×180）。
 
 ### 结构
 
@@ -58,6 +60,7 @@ https://raw.githubusercontent.com/YikR/loon-adblock/main/GodAdBlock.plugin
 
 ## 更新记录
 
+- 2026-10-23 v2.0.1：插件图标换成 X 工作台同款（icon.png）；规则与脚本无变化。
 - 2026-10-23 v2.0.0：规则 45 → 2080 条（多源合并+安全过滤）；新增脚本净化层
   （开屏/微博/小红书/知乎，带开关）；新增 18 条微博 Rewrite 与 MITM 主机表。
 - 2026-10-23 v1.0.0 首版：45 条手工精选专用广告域名 + 12306 开屏 Rewrite。
