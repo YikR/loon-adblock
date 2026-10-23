@@ -1,0 +1,131 @@
+#!name=人工智障·去广告轻量版
+#!desc=为 god 定制：只拦专用广告网络域名（穿山甲/优量汇/AdMob/Unity/AppLovin 等），不碰正文域名、不需要 MITM 证书，误伤小、可随时关。看广告得奖励类功能会受影响，属正常现象。
+#!author=人工智障 (Muse)
+#!homepage=https://github.com/YikR/loon-adblock
+#!raw-url=https://raw.githubusercontent.com/YikR/loon-adblock/main/GodAdBlock.plugin
+#!tag=去广告,定制
+#!system=iOS, iPadOS
+#!date=2026-10-23
+#!version=1.0.0
+
+# ============================================================
+# 设计原则（v1）
+# 1. 只写「专用广告域名」：这些域名只干投广告一件事，整域 REJECT 不误伤正文。
+# 2. 绝不写大域：如 qq.com / baidu.com / snssdk.com / bilibili.com，
+#    它们同时承载正文，整域拦截必然搞坏 App。需要精确到子域名的才写子域名。
+# 3. 纯 [Rule] 域名拦截不需要 MITM 证书即可生效；唯一的 [Rewrite]
+#    （12306 开屏）需要 MITM，未开 MITM 时它只是不触发，不会报错。
+# 4. 某个 App 异常时：先在插件里找到对应分组，把那几行行首加 # 注释掉，
+#    或直接关掉整个插件，即可恢复。
+# 5. 域名清单参考公开维护的拦截合集（fmz200/wool_scripts、blackmatrix7）
+#    人工精选，未整表照搬；「看广告领奖励」的激励视频也会被拦，这是原理决定的。
+# ============================================================
+
+[Rule]
+
+# ---------- 国内广告联盟（免费 App / 小游戏开屏与插屏的主要来源） ----------
+
+# 穿山甲 / Pangle（字节广告联盟，覆盖大量中小 App）
+DOMAIN-SUFFIX,pangolin-sdk-toutiao.com,REJECT
+DOMAIN-SUFFIX,pangle.cn,REJECT
+DOMAIN-SUFFIX,csjplatform.com,REJECT
+
+# 腾讯优量汇
+DOMAIN,e.qq.com,REJECT
+DOMAIN-SUFFIX,gdt.qq.com,REJECT
+
+# 百度联盟
+DOMAIN,cpro.baidustatic.com,REJECT
+DOMAIN,pos.baidu.com,REJECT
+DOMAIN,cpro.baidu.com,REJECT
+DOMAIN,dsp.baidu.com,REJECT
+
+# 快手广告
+DOMAIN,ad.e.kuaishou.com,REJECT
+
+# 小米广告
+DOMAIN-SUFFIX,ad.xiaomi.com,REJECT
+
+# 爱奇艺广告系统
+DOMAIN-SUFFIX,cupid.iqiyi.com,REJECT
+
+# 微博开屏/推广
+DOMAIN,ad.weibo.com,REJECT
+DOMAIN-SUFFIX,biz.weibo.com,REJECT
+
+# ---------- 海外广告网络 / SDK（出海 App 与手游内置广告） ----------
+
+# Google AdMob / AdSense
+DOMAIN-SUFFIX,doubleclick.net,REJECT
+DOMAIN-SUFFIX,googlesyndication.com,REJECT
+DOMAIN-SUFFIX,googleadservices.com,REJECT
+DOMAIN-SUFFIX,admob.com,REJECT
+
+# Amazon Ads
+DOMAIN-SUFFIX,amazon-adsystem.com,REJECT
+
+# Unity Ads
+DOMAIN-SUFFIX,unityads.unity3d.com,REJECT
+
+# AppLovin
+DOMAIN-SUFFIX,applovin.com,REJECT
+DOMAIN-SUFFIX,applvn.com,REJECT
+
+# Liftoff / Vungle
+DOMAIN-SUFFIX,vungle.com,REJECT
+
+# Chartboost
+DOMAIN-SUFFIX,chartboost.com,REJECT
+
+# AdColony
+DOMAIN-SUFFIX,adcolony.com,REJECT
+
+# Tapjoy
+DOMAIN-SUFFIX,tapjoy.com,REJECT
+
+# InMobi
+DOMAIN-SUFFIX,inmobi.com,REJECT
+
+# Mintegral（手游常见）
+DOMAIN-SUFFIX,mintegral.com,REJECT
+
+# ironSource
+DOMAIN-SUFFIX,ironsrc.com,REJECT
+
+# Smaato
+DOMAIN-SUFFIX,smaato.net,REJECT
+
+# Fyber
+DOMAIN-SUFFIX,fyber.com,REJECT
+
+# Meta Audience Network（只拦广告子域名，不碰 facebook.com 本体）
+DOMAIN,an.facebook.com,REJECT
+
+# 程序化广告交易平台
+DOMAIN-SUFFIX,adnxs.com,REJECT
+DOMAIN-SUFFIX,adsrvr.org,REJECT
+DOMAIN-SUFFIX,rubiconproject.com,REJECT
+DOMAIN-SUFFIX,pubmatic.com,REJECT
+DOMAIN-SUFFIX,openx.net,REJECT
+DOMAIN-SUFFIX,criteo.com,REJECT
+DOMAIN-SUFFIX,criteo.net,REJECT
+
+# 内容推荐广告（「猜你喜欢」信息流广告位）
+DOMAIN-SUFFIX,taboola.com,REJECT
+DOMAIN-SUFFIX,outbrain.com,REJECT
+
+# Apple 搜索广告（App Store 搜索页广告）
+DOMAIN,api-adservices.apple.com,REJECT
+DOMAIN,iad.apple.com,REJECT
+
+# ---------- 归因追踪（顺带拦；个别 App 异常先注释掉这两行试） ----------
+DOMAIN-SUFFIX,appsflyer.com,REJECT
+DOMAIN-SUFFIX,adjust.com,REJECT
+
+[Rewrite]
+
+# 12306 开屏广告（需 MITM 且信任证书后才生效；未开 MITM 时自动不触发）
+^https?:\/\/ad\.12306\.cn\/ad\/ser\/getAdList reject-dict
+
+[MITM]
+hostname = ad.12306.cn
