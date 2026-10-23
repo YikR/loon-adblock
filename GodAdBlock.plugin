@@ -1,5 +1,5 @@
 #!name=人工智障·去广告
-#!desc=v2.1.0：2126 条域名规则 + 91 条单 App 净化/开屏脚本（15 个开关，需 MITM）。覆盖微博/小红书/知乎/爱奇艺/优酷/滴滴/淘宝/京东/什么值得买/菜鸟/酷安/百度地图/夸克/航旅纵横。看广告得奖励类功能会受影响。
+#!desc=v2.2.0：2126 条域名规则 + 92 条单 App 净化/开屏脚本（16 个开关，需 MITM）。覆盖微博/小红书/知乎/爱奇艺/优酷/滴滴/淘宝/京东/什么值得买/菜鸟/酷安/百度地图/夸克/航旅纵横，及 X(Twitter) iOS App/网页版（实验组）。看广告得奖励类功能会受影响。
 #!author=人工智障 (Muse)
 #!icon=https://raw.githubusercontent.com/YikR/loon-adblock/main/icon.png
 #!homepage=https://github.com/YikR/loon-adblock
@@ -7,7 +7,7 @@
 #!tag=去广告,定制
 #!system=iOS, iPadOS
 #!date=2026-10-23
-#!version=2.1.0
+#!version=2.2.0
 
 # ============================================================
 # 说明（v2.1）
@@ -20,9 +20,12 @@
 #   Advertising 关键词中精选 46 条补强（admob/adserver/supersonicads 等）。
 #   anti-AD（11.2 万条）是给 DNS 解析器调的，未整表导入（手机规则引擎
 #   性能与误伤权衡），仅作交叉核对：本表 1467 条与它重合。
-# [Rewrite]/[Script] 为单 App 净化层（91 条脚本、15 个开关），来源
+# [Rewrite]/[Script] 为单 App 净化层（92 条脚本、16 个开关），来源
 #   fmz200（微博/小红书/知乎/爱奇艺/优酷/滴滴/淘宝/京东/什么值得买/
-#   菜鸟/酷安/百度地图/夸克/航旅纵横）与 blackmatrix7（开屏 startup.js），
+#   菜鸟/酷安/百度地图/夸克/航旅纵横，及 X 的 X_ads.js——原为网页版写、
+#   v2.2 起同时挂到 iOS App 的 api.twitter.com/api.x.com 接口上，属
+#   实验组：App 改接口或加证书锁定时会失效，失效时关 x_enable 即可）
+#   与 blackmatrix7（开屏 startup.js），
 #   需要 MITM 证书并信任；没开 MITM 时这层不生效，[Rule] 层照常工作。
 # 某 App 异常：先关对应脚本开关，再关整个插件定位；「看广告领奖励」
 #   的激励视频会被拦，属原理决定。
@@ -44,6 +47,7 @@ jd_enable = switch,true,tag=京东净化脚本,desc=fmz200 jingdong.js，需 MIT
 baidumap_enable = switch,true,tag=百度地图净化脚本,desc=fmz200 baidumap.js，需 MITM
 quark_enable = switch,true,tag=夸克净化脚本,desc=fmz200 quark.js，需 MITM
 umetrip_enable = switch,true,tag=航旅纵横净化脚本,desc=fmz200 umetrip_ads.js，需 MITM
+x_enable = switch,true,tag=X(Twitter)去广告（实验）,desc=fmz200 X_ads.js，同时挂 iOS App 与网页版时间线接口，需 MITM
 
 [Rule]
 DOMAIN-SUFFIX,1.hao123.com,REJECT
@@ -2324,5 +2328,8 @@ http-response ^https?:\/\/open-cms-api\.(uc|quark)\.cn\/open-cms script-path=htt
 # 航旅纵横净化脚本（fmz200）
 http-response ^http?:\/\/(114\.115\.217\.129)|(home\.umetrip\.com)\/gateway\/api\/umetrip\/native$ script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/umetrip/umetrip_ads.js, requires-body=true, timeout=60, tag=航旅纵横, enable={umetrip_enable}
 
+# X(Twitter) 去广告（fmz200 X_ads.js，实验组）
+http-response ^https?:\/\/((api\.twitter\.com|api\.x\.com)\/graphql|(x\.com|twitter\.com)\/i\/api\/graphql)\/[^\/]+\/(HomeTimeline|HomeLatestTimeline|TweetDetail) script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/X/X_ads.js, requires-body=true, timeout=60, tag=X去广告, enable={x_enable}
+
 [MITM]
-hostname = ad.12306.cn, app.bilibili.com, *.cupid.iqiyi.com, capis.didapinche.com, capis*.didapinche.com, fmapp.chinafamilymart.com.cn, wmapi.meituan.com, hd.mina.mi.com, mi.gdt.qq.com, cmsapi.dmall.com, *.weibo.cn, *.weibo.com, weibo.com, edith.xiaohongshu.com, so.xiaohongshu.com, api.zhihu.com, page-info.zhihu.com, www.zhihu.com, appcloud2.zhihu.com, m-cloud.zhihu.com, access.if.iqiyi.com, cards.iqiyi.com, comment-card.iqiyi.com, iface2.iqiyi.com, search.video.iqiyi.com, *.smzdm.com, ct.xiaojukeji.com, freight.xiaojukeji.com, res.xiaojukeji.com, conf.diditaxi.com.cn, common.diditaxi.com.cn, daijia.kuaidadi.com, acs.youku.com, un-acs.youku.com, push.m.youku.com, api.coolapk.com, amdc.m.taobao.com, cn-acs.m.cainiao.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, api.m.jd.com, newclient.map.baidu.com, open-cms-api.uc.cn, open-cms-api.quark.cn, home.umetrip.com
+hostname = ad.12306.cn, app.bilibili.com, *.cupid.iqiyi.com, capis.didapinche.com, capis*.didapinche.com, fmapp.chinafamilymart.com.cn, wmapi.meituan.com, hd.mina.mi.com, mi.gdt.qq.com, cmsapi.dmall.com, *.weibo.cn, *.weibo.com, weibo.com, edith.xiaohongshu.com, so.xiaohongshu.com, api.zhihu.com, page-info.zhihu.com, www.zhihu.com, appcloud2.zhihu.com, m-cloud.zhihu.com, api.twitter.com, api.x.com, x.com, twitter.com, access.if.iqiyi.com, cards.iqiyi.com, comment-card.iqiyi.com, iface2.iqiyi.com, search.video.iqiyi.com, *.smzdm.com, ct.xiaojukeji.com, freight.xiaojukeji.com, res.xiaojukeji.com, conf.diditaxi.com.cn, common.diditaxi.com.cn, daijia.kuaidadi.com, acs.youku.com, un-acs.youku.com, push.m.youku.com, api.coolapk.com, amdc.m.taobao.com, cn-acs.m.cainiao.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, api.m.jd.com, newclient.map.baidu.com, open-cms-api.uc.cn, open-cms-api.quark.cn, home.umetrip.com

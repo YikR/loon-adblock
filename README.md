@@ -2,7 +2,7 @@
 
 为 god 定制的 Loon 去广告插件，由 人工智障 (Muse) 维护。
 
-## 当前版本：GodAdBlock.plugin v2.1.0（2026-10-23）
+## 当前版本：GodAdBlock.plugin v2.2.0（2026-10-23）
 
 插件图标与 X 工作台同款（仓库根目录 icon.png，取自工作台 apple-touch-icon，180×180）。
 
@@ -19,7 +19,7 @@
 - 受保护的正文大域（qq.com / baidu.com / bilibili.com / snssdk.com 等）本体一条不拦，
   只拦它们的广告子域名
 
-**第二层 · 单 App 净化脚本（91 条，15 个开关，需要 MITM）**
+**第二层 · 单 App 净化脚本（92 条，16 个开关，需要 MITM）**
 
 | 开关 | 内容 | 来源 |
 | --- | --- | --- |
@@ -38,8 +38,17 @@
 | baidumap_enable | 百度地图净化（1 条） | fmz200 baidumap.js |
 | quark_enable | 夸克净化（1 条） | fmz200 quark.js |
 | umetrip_enable | 航旅纵横净化（1 条） | fmz200 umetrip_ads.js |
+| x_enable | X(Twitter) 时间线/评论区去广告（1 条，**实验组**） | fmz200 X_ads.js |
 
 另有 12306 开屏 Rewrite 一条。不用的 App 把对应开关关掉即可，脚本不会触发。
+
+X 组说明：X_ads.js 本是 fmz200 为网页版所写，但它按接口操作名
+（HomeTimeline/HomeLatestTimeline/TweetDetail）与响应结构过滤广告条目、
+与主机无关，v2.2 起把同一脚本同时挂到 iOS App 的 api.twitter.com /
+api.x.com 接口上。X 的广告与遥测域名（ads-twitter.com、p.twitter.com、
+scribe.twitter.com、syndication.twitter.com）已在域名层覆盖；
+urls.api.twitter.com 是链接展开服务，故意不拦。实验性质：App 改接口
+或启用证书锁定后会失效，失效时关掉 x_enable 开关即可，其余功能不受影响。
 
 ### 数据来源与取舍
 
@@ -73,6 +82,9 @@ https://raw.githubusercontent.com/YikR/loon-adblock/main/GodAdBlock.plugin
 
 ## 更新记录
 
+- 2026-10-23 v2.2.0：新增 X(Twitter) 去广告实验组（x_enable）：fmz200 X_ads.js
+  同时挂 iOS App（api.twitter.com / api.x.com）与网页版时间线接口，
+  过滤推广推文；MITM 主机 45 → 49。域名规则不变（2126 条）。
 - 2026-10-23 v2.1.0：脚本层 36 → 91 条，新增 11 个 App 组（爱奇艺/什么值得买/
   滴滴/优酷/菜鸟/酷安/淘宝/京东/百度地图/夸克/航旅纵横，脚本均取 fmz200 仓库内
   文件，第三方脚本不收）；域名关键词 +46 条（blackmatrix7 精选）；MITM 主机 20 → 45。
