@@ -2,22 +2,24 @@
 
 为 god 定制的 Loon 去广告插件，由 人工智障 (Muse) 维护。
 
-## 当前版本：GodAdBlock.plugin v2.0.1（2026-10-23）
+## 当前版本：GodAdBlock.plugin v2.1.0（2026-10-23）
 
 插件图标与 X 工作台同款（仓库根目录 icon.png，取自工作台 apple-touch-icon，180×180）。
 
 ### 结构
 
-**第一层 · 域名规则（2080 条，不需要 MITM）**
+**第一层 · 域名规则（2126 条，不需要 MITM）**
 
 - v1 手工精选 45 条 + fmz200/wool_scripts 的 rejectAd 域名部分合并
-- 合并后构成：DOMAIN 245 + DOMAIN-SUFFIX 1737 + DOMAIN-KEYWORD 98
+- 合并后构成：DOMAIN 245 + DOMAIN-SUFFIX 1737 + DOMAIN-KEYWORD 144
+  （其中 46 条关键词为 v2.1 从 blackmatrix7 Advertising 精选补强：
+  admob / adserver / supersonicads / securepubads 等）
 - 处理流水线：去重 → 覆盖去冗（441 条子域被父后缀覆盖后删除）→ 安全过滤
   （剔除 Adobe 激活/安全浏览类 27 条、上游误收的 temu.com 本体、格式非法 5 条）
 - 受保护的正文大域（qq.com / baidu.com / bilibili.com / snssdk.com 等）本体一条不拦，
   只拦它们的广告子域名
 
-**第二层 · 单 App 净化脚本（36 条，带开关，需要 MITM）**
+**第二层 · 单 App 净化脚本（91 条，15 个开关，需要 MITM）**
 
 | 开关 | 内容 | 来源 |
 | --- | --- | --- |
@@ -25,8 +27,19 @@
 | weibo_enable | 微博信息流/发现/热搜/评论净化 + 18 条 Rewrite | fmz200 weibo 系列 |
 | xhs_enable | 小红书开屏 + 搜索页净化 | fmz200 xiaohongshu.js |
 | zhihu_enable | 知乎首页/信息流/回答页净化 | fmz200 zhihu.js |
+| iqiyi_enable | 爱奇艺首页/播放页/搜索净化（13 条） | fmz200 cnftp.js |
+| smzdm_enable | 什么值得买净化（13 条） | fmz200 smzdm 系列 |
+| didi_enable | 滴滴出行净化（10 条） | fmz200 didiAds.js |
+| youku_enable | 优酷净化（6 条） | fmz200 cnftp.js |
+| cainiao_enable | 菜鸟裹裹净化（4 条） | fmz200 cainiao.js |
+| coolapk_enable | 酷安净化（3 条） | fmz200 coolapk.js |
+| taobao_enable | 淘宝开屏/弹窗净化（2 条） | fmz200 myBlockAds.js |
+| jd_enable | 京东净化（1 条） | fmz200 jingdong.js |
+| baidumap_enable | 百度地图净化（1 条） | fmz200 baidumap.js |
+| quark_enable | 夸克净化（1 条） | fmz200 quark.js |
+| umetrip_enable | 航旅纵横净化（1 条） | fmz200 umetrip_ads.js |
 
-另有 12306 开屏 Rewrite 一条。
+另有 12306 开屏 Rewrite 一条。不用的 App 把对应开关关掉即可，脚本不会触发。
 
 ### 数据来源与取舍
 
@@ -60,6 +73,9 @@ https://raw.githubusercontent.com/YikR/loon-adblock/main/GodAdBlock.plugin
 
 ## 更新记录
 
+- 2026-10-23 v2.1.0：脚本层 36 → 91 条，新增 11 个 App 组（爱奇艺/什么值得买/
+  滴滴/优酷/菜鸟/酷安/淘宝/京东/百度地图/夸克/航旅纵横，脚本均取 fmz200 仓库内
+  文件，第三方脚本不收）；域名关键词 +46 条（blackmatrix7 精选）；MITM 主机 20 → 45。
 - 2026-10-23 v2.0.1：插件图标换成 X 工作台同款（icon.png）；规则与脚本无变化。
 - 2026-10-23 v2.0.0：规则 45 → 2080 条（多源合并+安全过滤）；新增脚本净化层
   （开屏/微博/小红书/知乎，带开关）；新增 18 条微博 Rewrite 与 MITM 主机表。

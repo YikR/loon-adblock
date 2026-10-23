@@ -1,5 +1,5 @@
 #!name=人工智障·去广告
-#!desc=v2.0.1：2080 条域名规则（精选合并 GitHub 主流清单）+ 微博/小红书/知乎净化与多 App 开屏脚本（带开关，需 MITM）。看广告得奖励类功能会受影响，属正常现象。
+#!desc=v2.1.0：2126 条域名规则 + 91 条单 App 净化/开屏脚本（15 个开关，需 MITM）。覆盖微博/小红书/知乎/爱奇艺/优酷/滴滴/淘宝/京东/什么值得买/菜鸟/酷安/百度地图/夸克/航旅纵横。看广告得奖励类功能会受影响。
 #!author=人工智障 (Muse)
 #!icon=https://raw.githubusercontent.com/YikR/loon-adblock/main/icon.png
 #!homepage=https://github.com/YikR/loon-adblock
@@ -7,21 +7,23 @@
 #!tag=去广告,定制
 #!system=iOS, iPadOS
 #!date=2026-10-23
-#!version=2.0.1
+#!version=2.1.0
 
 # ============================================================
-# v2 说明
-# [Rule] 2080 条 = v1 手工精选 45 条 + fmz200/wool_scripts 的 rejectAd
+# 说明（v2.1）
+# [Rule] 2126 条 = v1 手工精选 45 条 + fmz200/wool_scripts 的 rejectAd
 #   域名部分（DOMAIN 245 + DOMAIN-SUFFIX 1737 + DOMAIN-KEYWORD 98），
 #   已做：去重、覆盖去冗（441 条子域被父后缀覆盖后删除）、安全过滤
 #   （剔除 Adobe 激活/安全浏览类 27 条、上游误收的 temu.com 本体 1 条、
 #   格式非法 5 条）；受保护的正文大域（qq.com / baidu.com / bilibili.com
-#   等）本体一条都没有，只拦它们的广告子域名。
+#   等）本体一条都没有，只拦它们的广告子域名。v2.1 另从 blackmatrix7
+#   Advertising 关键词中精选 46 条补强（admob/adserver/supersonicads 等）。
 #   anti-AD（11.2 万条）是给 DNS 解析器调的，未整表导入（手机规则引擎
 #   性能与误伤权衡），仅作交叉核对：本表 1467 条与它重合。
-# [Rewrite]/[Script] 为单 App 净化层，来源 fmz200（微博/小红书/知乎）与
-#   blackmatrix7（开屏 startup.js），全部带开关、需要 MITM 证书并信任；
-#   没开 MITM 时这层不生效，[Rule] 域名层照常工作。
+# [Rewrite]/[Script] 为单 App 净化层（91 条脚本、15 个开关），来源
+#   fmz200（微博/小红书/知乎/爱奇艺/优酷/滴滴/淘宝/京东/什么值得买/
+#   菜鸟/酷安/百度地图/夸克/航旅纵横）与 blackmatrix7（开屏 startup.js），
+#   需要 MITM 证书并信任；没开 MITM 时这层不生效，[Rule] 层照常工作。
 # 某 App 异常：先关对应脚本开关，再关整个插件定位；「看广告领奖励」
 #   的激励视频会被拦，属原理决定。
 # ============================================================
@@ -31,6 +33,17 @@ startup_enable = switch,true,tag=开屏脚本（B站/爱奇艺/美团外卖等�
 weibo_enable = switch,true,tag=微博净化脚本,desc=fmz200 weibo_main/weibo_ads，需 MITM
 xhs_enable = switch,true,tag=小红书净化脚本,desc=fmz200 xiaohongshu.js，需 MITM
 zhihu_enable = switch,true,tag=知乎净化脚本,desc=fmz200 zhihu.js，需 MITM
+iqiyi_enable = switch,true,tag=爱奇艺净化脚本,desc=fmz200 cnftp.js，需 MITM
+smzdm_enable = switch,true,tag=什么值得买净化脚本,desc=fmz200 smzdm 系列，需 MITM
+didi_enable = switch,true,tag=滴滴出行净化脚本,desc=fmz200 didiAds.js，需 MITM
+youku_enable = switch,true,tag=优酷净化脚本,desc=fmz200 cnftp.js，需 MITM
+coolapk_enable = switch,true,tag=酷安净化脚本,desc=fmz200 coolapk.js，需 MITM
+cainiao_enable = switch,true,tag=菜鸟裹裹净化脚本,desc=fmz200 cainiao.js，需 MITM
+taobao_enable = switch,true,tag=淘宝净化脚本,desc=fmz200 myBlockAds.js，需 MITM
+jd_enable = switch,true,tag=京东净化脚本,desc=fmz200 jingdong.js，需 MITM
+baidumap_enable = switch,true,tag=百度地图净化脚本,desc=fmz200 baidumap.js，需 MITM
+quark_enable = switch,true,tag=夸克净化脚本,desc=fmz200 quark.js，需 MITM
+umetrip_enable = switch,true,tag=航旅纵横净化脚本,desc=fmz200 umetrip_ads.js，需 MITM
 
 [Rule]
 DOMAIN-SUFFIX,1.hao123.com,REJECT
@@ -2114,6 +2127,54 @@ DOMAIN-KEYWORD,v0-client-lz.rili.cn,REJECT
 DOMAIN-KEYWORD,video-cn.snssdk.com,REJECT
 DOMAIN-KEYWORD,xiaoqiang,REJECT
 
+# v2.1 关键词补强（blackmatrix7 Advertising 关键词精选 46 条）
+DOMAIN-KEYWORD,-rtb.gravite.net,REJECT
+DOMAIN-KEYWORD,-tracker.biliapi.net,REJECT
+DOMAIN-KEYWORD,ad.api.moji.com,REJECT
+DOMAIN-KEYWORD,ad.ihuman.com,REJECT
+DOMAIN-KEYWORD,ad.ixigua.com,REJECT
+DOMAIN-KEYWORD,ad.toutiao.com,REJECT
+DOMAIN-KEYWORD,adjust.,REJECT
+DOMAIN-KEYWORD,adktrack,REJECT
+DOMAIN-KEYWORD,admarvel,REJECT
+DOMAIN-KEYWORD,admaster,REJECT
+DOMAIN-KEYWORD,admdfs,REJECT
+DOMAIN-KEYWORD,admob,REJECT
+DOMAIN-KEYWORD,adnewnc,REJECT
+DOMAIN-KEYWORD,adp.atm.youku.com,REJECT
+DOMAIN-KEYWORD,adsage,REJECT
+DOMAIN-KEYWORD,adsame,REJECT
+DOMAIN-KEYWORD,adsby,REJECT
+DOMAIN-KEYWORD,adsdk,REJECT
+DOMAIN-KEYWORD,adsense,REJECT
+DOMAIN-KEYWORD,adsensor,REJECT
+DOMAIN-KEYWORD,adserve2,REJECT
+DOMAIN-KEYWORD,adserver,REJECT
+DOMAIN-KEYWORD,adservice,REJECT
+DOMAIN-KEYWORD,adsmogo,REJECT
+DOMAIN-KEYWORD,adspace,REJECT
+DOMAIN-KEYWORD,adsrvmedia,REJECT
+DOMAIN-KEYWORD,adsserving,REJECT
+DOMAIN-KEYWORD,adsyndication,REJECT
+DOMAIN-KEYWORD,adsystem,REJECT
+DOMAIN-KEYWORD,adtrack.ucweb.com,REJECT
+DOMAIN-KEYWORD,advert,REJECT
+DOMAIN-KEYWORD,adwords,REJECT
+DOMAIN-KEYWORD,dlads,REJECT
+DOMAIN-KEYWORD,dwtrack,REJECT
+DOMAIN-KEYWORD,extlog.snssdk.com,REJECT
+DOMAIN-KEYWORD,googleads,REJECT
+DOMAIN-KEYWORD,mobaders,REJECT
+DOMAIN-KEYWORD,nbsdk-baichuan,REJECT
+DOMAIN-KEYWORD,partnerad,REJECT
+DOMAIN-KEYWORD,sdfp.snssdk.com,REJECT
+DOMAIN-KEYWORD,securepubads,REJECT
+DOMAIN-KEYWORD,supersonicads,REJECT
+DOMAIN-KEYWORD,track.msadcenter,REJECT
+DOMAIN-KEYWORD,track.tiara,REJECT
+DOMAIN-KEYWORD,track.uc.cn,REJECT
+DOMAIN-KEYWORD,umtrack,REJECT
+
 [Rewrite]
 
 # 12306 开屏广告
@@ -2186,5 +2247,82 @@ http-response ^https:\/\/www\.zhihu\.com\/api\/v4\/(?:articles|answers)\/\d+\/re
 http-response ^https:\/\/appcloud2\.zhihu\.com\/v3\/config script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/zhihu/zhihu.js, requires-body=true, timeout=60, tag=知乎推送配置拦截, enable={zhihu_enable}
 http-response ^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/config\/all\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/zhihu/zhihu.js, requires-body=true, timeout=60, tag=知乎推送配置拦截, enable={zhihu_enable}
 
+# 爱奇艺净化脚本（fmz200）
+http-response ^https?:\/\/[\d\.]+\/3f1\/cards\.iqiyi\.com\/(views_home\/3\.0\/qy_home|waterfall\/3\.0\/feed)\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺首页信息流广告, enable={iqiyi_enable}
+http-response ^https?:\/\/access\.if\.iqiyi\.com\/3f1\/cards\.iqiyi\.com\/(views_category\/3\.0\/category_home|views_home\/3\.0\/qy_home|waterfall\/3\.0\/feed)\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺首页信息流广告, enable={iqiyi_enable}
+http-response ^https?:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/(category_home|categorylib_content|film_hybrid)\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺首页信息流广告, enable={iqiyi_enable}
+http-response ^https?:\/\/cards\.iqiyi\.com\/(views_home\/3\.0\/qy_home|waterfall\/3\.0\/feed)\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺首页信息流广告, enable={iqiyi_enable}
+http-response ^https?:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺播放详情页广告, enable={iqiyi_enable}
+http-response ^https?:\/\/cards\.iqiyi\.com\/views_search\/3\.0\/(hot_query_)?search\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺搜索页列表广告, enable={iqiyi_enable}
+http-response ^https?:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺评论区, enable={iqiyi_enable}
+http-response ^https?:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/getMyMenus\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺我的页面菜单, enable={iqiyi_enable}
+http-response ^https?:\/\/iface2\.iqiyi\.com\/control\/3\.0\/init_proxy\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺首页左上角天气, enable={iqiyi_enable}
+http-response ^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺净化脚本, enable={iqiyi_enable}
+http-response ^https?:\/\/iface2\.iqiyi\.com\/views\/3\.0\/(bottom_theme|home_top_menu)\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺底部tab、顶部tab, enable={iqiyi_enable}
+http-response ^https?:\/\/search\.video\.iqiyi\.com\/q\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺搜索框填充词, enable={iqiyi_enable}
+http-response ^https?:\/\/(kjp|t7z)\.cupid\.iqiyi\.com\/mixer\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=爱奇艺净化脚本, enable={iqiyi_enable}
+
+# 什么值得买净化脚本（fmz200）
+http-response ^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/smzdm_ads.js, requires-body=true, timeout=60, tag=什么值得买去广告, enable={smzdm_enable}
+http-response ^https?:\/\/haojia-api\.smzdm\.com\/ranking_list\/articles\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/smzdm_ads.js, requires-body=true, timeout=60, tag=什么值得买去广告, enable={smzdm_enable}
+http-response ^https?:\/\/s-api\.smzdm\.com\/sou\/filter\/tags\/hot_tags\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/smzdm_ads.js, requires-body=true, timeout=60, tag=什么值得买去广告, enable={smzdm_enable}
+http-response ^https?:\/\/s-api\.smzdm\.com\/sou\/list_v10\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/smzdm_ads.js, requires-body=true, timeout=60, tag=什么值得买去广告, enable={smzdm_enable}
+http-response ^https?:\/\/user-api\.smzdm\.com\/vip\/creator_user_center script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/smzdm_ads.js, requires-body=true, timeout=60, tag=什么值得买去广告, enable={smzdm_enable}
+http-response ^https?:\/\/user-api\.smzdm\.com\/vip$ script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/Smzdm.js, requires-body=true, timeout=60, tag=什么值得买去广告, enable={smzdm_enable}
+http-response ^https?:\/\/app-api\.smzdm\.com\/util\/loading script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm, enable={smzdm_enable}
+http-response ^https?:\/\/app-api\.smzdm\.com\/util\/update script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm, enable={smzdm_enable}
+http-response ^https?:\/\/user-api\.smzdm\.com\/vip\/bottom_card_list script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm, enable={smzdm_enable}
+http-response ^https?:\/\/haojia-api\.smzdm\.com\/home\/list script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm, enable={smzdm_enable}
+http-response ^https?:\/\/homepage-api\.smzdm\.com\/v3\/home script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm, enable={smzdm_enable}
+http-response ^https?:\/\/article-api\.smzdm\.com\/publish\/get_bubble script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm, enable={smzdm_enable}
+http-response ^https?:\/\/qianbao\.smzdm\.com\/v\d\/app\/home script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/smzdm/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm, enable={smzdm_enable}
+
+# 滴滴出行净化脚本（fmz200）
+http-response ^https?:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/didi/didiAds.js, requires-body=true, timeout=60, tag=滴滴出行, enable={didi_enable}
+http-response ^https?:\/\/freight\.xiaojukeji\.com\/gateway script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/didi/didiAds.js, requires-body=true, timeout=60, tag=滴滴出行, enable={didi_enable}
+http-response ^https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/xpget script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/didi/didiAds.js, requires-body=true, timeout=60, tag=滴滴出行, enable={didi_enable}
+http-response ^https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/didi/didiAds.js, requires-body=true, timeout=60, tag=滴滴出行, enable={didi_enable}
+http-response ^https?:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\/fast script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/didi/didiAds.js, requires-body=true, timeout=60, tag=滴滴出行, enable={didi_enable}
+http-response ^https?:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/didi/didiAds.js, requires-body=true, timeout=60, tag=滴滴出行, enable={didi_enable}
+http-response ^https?:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/didi/didiAds.js, requires-body=true, timeout=60, tag=滴滴出行, enable={didi_enable}
+http-response ^https?:\/\/daijia\.kuaidadi\.com\/gateway script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/didi/didiAds.js, requires-body=true, timeout=60, tag=滴滴出行, enable={didi_enable}
+http-response ^https?:\/\/daijia\.kuaidadi\.com:443\/gateway script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/didi/didiAds.js, requires-body=true, timeout=60, tag=滴滴出行, enable={didi_enable}
+http-response ^https?:\/\/common\.diditaxi\.com\.cn\/common\/v5 script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/didi/didiAds.js, requires-body=true, timeout=60, tag=微信小程序个人中心净化, enable={didi_enable}
+
+# 优酷净化脚本（fmz200）
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query) script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=优酷, enable={youku_enable}
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=优酷底部tab, enable={youku_enable}
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2 script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=优酷青少年模式弹窗, enable={youku_enable}
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=优酷搜索列表, enable={youku_enable}
+http-response ^https?:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=优酷热剧弹窗, enable={youku_enable}
+http-response ^https?:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cnftp.js, requires-body=true, timeout=60, tag=优酷开屏广告, enable={youku_enable}
+
+# 酷安净化脚本（fmz200）
+http-response ^https?:\/\/api\.coolapk\.com\/v6\/feed\/(detail|replyList)\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/coolapk.js, requires-body=true, timeout=60, tag=酷安, enable={coolapk_enable}
+http-response ^https?:\/\/api\.coolapk\.com\/v6\/main\/(dataList|indexV8|init) script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/coolapk.js, requires-body=true, timeout=60, tag=酷安, enable={coolapk_enable}
+http-response ^https?:\/\/api\.coolapk\.com\/v6\/page\/dataList\? script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/coolapk.js, requires-body=true, timeout=60, tag=酷安, enable={coolapk_enable}
+
+# 菜鸟裹裹净化脚本（fmz200）
+http-response ^https?:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch$ script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/header.js, timeout=60, tag=菜鸟裹裹, enable={cainiao_enable}
+http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.m?show\.cn script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cainiao/cainiao.js, requires-body=true, timeout=60, tag=菜鸟裹裹, enable={cainiao_enable}
+http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(pickup\.empty\.page|protocol\.homepage)\.get\.cn script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cainiao/cainiao.js, requires-body=true, timeout=60, tag=菜鸟裹裹, enable={cainiao_enable}
+http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.nbfriend\.message\.conversation\.list\.cn script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cainiao/cainiao.js, requires-body=true, timeout=60, tag=菜鸟裹裹, enable={cainiao_enable}
+
+# 淘宝净化脚本（fmz200）
+http-response ^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get) script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/myBlockAds.js, requires-body=true, timeout=60, tag=淘宝, enable={taobao_enable}
+http-response ^https?:\/\/poplayer\.template\.alibaba\.com\/\w+\.json script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/myBlockAds.js, requires-body=true, timeout=60, tag=淘宝, enable={taobao_enable}
+
+# 京东净化脚本（fmz200）
+http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/jingdong/jingdong.js, requires-body=true, timeout=60, tag=京东, enable={jd_enable}
+
+# 百度地图净化脚本（fmz200）
+http-response ^https?:\/\/newclient\.map\.baidu\.com\/client\/phpui2\/\?qt=ads script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/baidumap.js, requires-body=true, timeout=60, tag=百度地图广告, enable={baidumap_enable}
+
+# 夸克净化脚本（fmz200）
+http-response ^https?:\/\/open-cms-api\.(uc|quark)\.cn\/open-cms script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/quark.js, requires-body=true, timeout=60, tag=夸克, enable={quark_enable}
+
+# 航旅纵横净化脚本（fmz200）
+http-response ^http?:\/\/(114\.115\.217\.129)|(home\.umetrip\.com)\/gateway\/api\/umetrip\/native$ script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/umetrip/umetrip_ads.js, requires-body=true, timeout=60, tag=航旅纵横, enable={umetrip_enable}
+
 [MITM]
-hostname = ad.12306.cn, app.bilibili.com, *.cupid.iqiyi.com, capis.didapinche.com, capis*.didapinche.com, fmapp.chinafamilymart.com.cn, wmapi.meituan.com, hd.mina.mi.com, mi.gdt.qq.com, cmsapi.dmall.com, *.weibo.cn, *.weibo.com, weibo.com, edith.xiaohongshu.com, so.xiaohongshu.com, api.zhihu.com, page-info.zhihu.com, www.zhihu.com, appcloud2.zhihu.com, m-cloud.zhihu.com
+hostname = ad.12306.cn, app.bilibili.com, *.cupid.iqiyi.com, capis.didapinche.com, capis*.didapinche.com, fmapp.chinafamilymart.com.cn, wmapi.meituan.com, hd.mina.mi.com, mi.gdt.qq.com, cmsapi.dmall.com, *.weibo.cn, *.weibo.com, weibo.com, edith.xiaohongshu.com, so.xiaohongshu.com, api.zhihu.com, page-info.zhihu.com, www.zhihu.com, appcloud2.zhihu.com, m-cloud.zhihu.com, access.if.iqiyi.com, cards.iqiyi.com, comment-card.iqiyi.com, iface2.iqiyi.com, search.video.iqiyi.com, *.smzdm.com, ct.xiaojukeji.com, freight.xiaojukeji.com, res.xiaojukeji.com, conf.diditaxi.com.cn, common.diditaxi.com.cn, daijia.kuaidadi.com, acs.youku.com, un-acs.youku.com, push.m.youku.com, api.coolapk.com, amdc.m.taobao.com, cn-acs.m.cainiao.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, api.m.jd.com, newclient.map.baidu.com, open-cms-api.uc.cn, open-cms-api.quark.cn, home.umetrip.com
